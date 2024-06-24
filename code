@@ -1,0 +1,122 @@
+int t1 = 5;
+long int anr;
+char x4;
+char x3;
+char x2;
+char x1;
+long int ft = 1;
+bool f = true;
+char ftx4;
+char ftx3;
+char ftx2;
+char ftx1;
+long int ftx;
+int fpst = 5;
+
+void cellChoose(bool ce1 , bool ce2 , bool ce3 , bool ce4){
+    digitalWrite(2 , ce1);
+    digitalWrite(3 , ce2);
+    digitalWrite(4 , ce3);
+    digitalWrite(5 , ce4);
+  }
+
+void render( int xa){
+
+  byte smbl;
+
+  if(xa < 1){ smbl = 0b11111100;}
+   else if (xa >= 1 and xa < 2){ smbl = 0b00001100;}
+   else if (xa >= 2 and xa < 3){ smbl = 0b11011010;}
+   else if (xa >= 3 and xa < 4){ smbl = 0b11110010;}
+   else if (xa >= 4 and xa < 5){ smbl = 0b01100110;}
+   else if (xa >= 5 and xa < 6){ smbl = 0b10110110;}
+   else if (xa >= 6 and xa < 7){ smbl = 0b10111110;}
+   else if (xa >= 7 and xa < 8){ smbl = 0b11100000;}
+   else if (xa >= 8 and xa< 9){ smbl =  0b11111110;}
+   else{ smbl = 0b11110110 ;}
+
+   shiftOut(12  , 11  , LSBFIRST  , smbl);
+}
+
+void nigger (int xb , bool cel1 , bool cel2 , bool  cel3 , bool cel4){
+
+   digitalWrite(10 , LOW);
+   render(xb);
+   cellChoose(cel1 , cel2 , cel3 , cel4);
+   digitalWrite(10 , HIGH);
+  
+  }
+
+void paint( int t , int c1 , int c2 , int c3 , int c4){
+    delay(t);
+    nigger(c1 , 0 , 1 ,1 ,1);
+    delay(t);
+    nigger(c2 , 1 , 0 ,1 ,1);
+    delay(t);
+    nigger(c3 , 1 , 1 ,0 ,1);
+    delay(t);
+    nigger(c4 , 1 , 1 ,1 ,0);
+  }
+
+
+void setup() {
+  for(int i1 = 2 ; i1 < 6 ; i1++){
+        pinMode(i1 , OUTPUT);
+      }
+  for(int i2 = 10 ; i2 < 13 ; i2++){
+        pinMode(i2 , OUTPUT);
+      }
+  pinMode(A1 , INPUT);
+  pinMode(6 , INPUT_PULLUP);
+  pinMode(7 , OUTPUT);
+  pinMode(8 , OUTPUT);
+  Serial.begin(9600);                          
+
+}
+
+void loop() {
+   //Serial.println(digitalRead(6));
+   //Serial.println(f);
+   anr = analogRead(A1);
+    
+   //Serial.println(anr);   
+   if (f){
+   x4=anr%10;
+   anr = anr / 10;
+   
+   x3=anr%10;
+   anr = anr / 10;
+ 
+   x2=anr%10;
+   anr = anr / 10;
+ 
+   x1=anr%10;
+  paint(fpst , x1 , x2 , x3 , x4);}
+
+  if (digitalRead(6) == 0){ft = analogRead(A1) ; f = false;}
+
+  if (!f && ft != 0){
+   digitalWrite(7  , HIGH);
+   ft -= 1;
+   ftx = ft;
+   //delay(10);
+   //Serial.println(ftx);
+  
+   ftx4=ftx%10;
+   ftx = ftx / 10;
+   
+   ftx3=ftx%10;
+   ftx = ftx / 10;
+ 
+   ftx2= ftx%10;
+   ftx = ftx / 10;
+ 
+   ftx1=ftx%10;
+   
+   paint(fpst , ftx1 , ftx2 , ftx3 , ftx4);
+   digitalWrite(7  , LOW);}
+
+  if( ft == 0){
+    digitalWrite(8 , HIGH);
+  }
+}
